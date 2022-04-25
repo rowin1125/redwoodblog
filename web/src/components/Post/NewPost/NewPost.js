@@ -17,9 +17,6 @@ const NewPost = () => {
       toast.success('Post created')
       navigate(routes.posts())
     },
-    onError: (error) => {
-      toast.error(error.message)
-    },
   })
 
   const onSave = (input) => {

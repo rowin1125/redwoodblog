@@ -1,5 +1,3 @@
-import humanize from 'humanize-string'
-
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { Link, routes } from '@redwoodjs/router'
@@ -16,17 +14,6 @@ const DELETE_POST_MUTATION = gql`
 
 const MAX_STRING_LENGTH = 150
 
-const formatEnum = (values) => {
-  if (values) {
-    if (Array.isArray(values)) {
-      const humanizedValues = values.map((value) => humanize(value))
-      return humanizedValues.join(', ')
-    } else {
-      return humanize(values)
-    }
-  }
-}
-
 const truncate = (text) => {
   let output = text
   if (text && text.length > MAX_STRING_LENGTH) {
@@ -41,11 +28,9 @@ const jsonTruncate = (obj) => {
 
 const timeTag = (datetime) => {
   return (
-    datetime && (
-      <time dateTime={datetime} title={datetime}>
-        {new Date(datetime).toUTCString()}
-      </time>
-    )
+    <time dateTime={datetime} title={datetime}>
+      {new Date(datetime).toUTCString()}
+    </time>
   )
 }
 
@@ -57,9 +42,6 @@ const PostsList = ({ posts }) => {
   const [deletePost] = useMutation(DELETE_POST_MUTATION, {
     onCompleted: () => {
       toast.success('Post deleted')
-    },
-    onError: (error) => {
-      toast.error(error.message)
     },
     // This refetches the query on the list page. Read more about other ways to
     // update the cache over here:
@@ -109,14 +91,14 @@ const PostsList = ({ posts }) => {
                   >
                     Edit
                   </Link>
-                  <button
-                    type="button"
+                  <a
+                    href="#"
                     title={'Delete post ' + post.id}
                     className="rw-button rw-button-small rw-button-red"
                     onClick={() => onDeleteClick(post.id)}
                   >
                     Delete
-                  </button>
+                  </a>
                 </nav>
               </td>
             </tr>

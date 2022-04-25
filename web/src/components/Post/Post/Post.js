@@ -1,5 +1,3 @@
-import humanize from 'humanize-string'
-
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { Link, routes, navigate } from '@redwoodjs/router'
@@ -12,17 +10,6 @@ const DELETE_POST_MUTATION = gql`
   }
 `
 
-const formatEnum = (values) => {
-  if (values) {
-    if (Array.isArray(values)) {
-      const humanizedValues = values.map((value) => humanize(value))
-      return humanizedValues.join(', ')
-    } else {
-      return humanize(values)
-    }
-  }
-}
-
 const jsonDisplay = (obj) => {
   return (
     <pre>
@@ -33,11 +20,9 @@ const jsonDisplay = (obj) => {
 
 const timeTag = (datetime) => {
   return (
-    datetime && (
-      <time dateTime={datetime} title={datetime}>
-        {new Date(datetime).toUTCString()}
-      </time>
-    )
+    <time dateTime={datetime} title={datetime}>
+      {new Date(datetime).toUTCString()}
+    </time>
   )
 }
 
@@ -50,9 +35,6 @@ const Post = ({ post }) => {
     onCompleted: () => {
       toast.success('Post deleted')
       navigate(routes.posts())
-    },
-    onError: (error) => {
-      toast.error(error.message)
     },
   })
 
@@ -98,13 +80,13 @@ const Post = ({ post }) => {
         >
           Edit
         </Link>
-        <button
-          type="button"
+        <a
+          href="#"
           className="rw-button rw-button-red"
           onClick={() => onDeleteClick(post.id)}
         >
           Delete
-        </button>
+        </a>
       </nav>
     </>
   )
